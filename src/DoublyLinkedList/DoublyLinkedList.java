@@ -1,32 +1,28 @@
-package LinkedList;
+package DoublyLinkedList;
 
-public class LinkedList {
-    private Node head;
-    private Node tail;
-    private int length;
+public class DoublyLinkedList {
 
     public class Node {
         public int value;
+        Node prev;
         Node next;
 
         public Node(int value) {
             this.value = value;
+            prev = null;
+            next = null;
         }
     }
 
-    public LinkedList(int value) {
+    private Node head;
+    private Node tail;
+    private int length;
+
+    public DoublyLinkedList(int value) {
         Node newNode = new Node(value);
         head = newNode;
         tail = newNode;
         length = 1;
-    }
-
-    public void printList() {
-        Node temp = head;
-        while (temp != null) {
-            System.out.println(temp.value);
-            temp = temp.next;
-        }
     }
 
     public void getHead() {
@@ -41,41 +37,43 @@ public class LinkedList {
         System.out.println("Length " + length);
     }
 
-    public Node append(int value) {
+    public void printList() {
+        Node temp = head;
+        while (temp != null) {
+            System.out.println(temp.value);
+            temp = temp.next;
+        }
+    }
+
+    public void append(int value) {
         Node newNode = new Node(value);
         if (length == 0) {
-            tail = newNode;
             head = newNode;
+            tail = newNode;
         } else {
 
             tail.next = newNode;
+            newNode.prev = tail;
             tail = newNode;
         }
         length++;
-        return newNode;
     }
 
     public Node removeLast() {
-        // Here we're checking if there is any element inside our list.
+
+        Node temp = tail;
         if (length == 0)
             return null;
-
-        Node temp = head;
-        Node pre = head;
-
-        while (temp.next != null) {
-            pre = temp;
-            temp = temp.next;
-        }
-
-        tail = pre;
-        tail.next = null;
-        length--;
-        // We're doing this here to check the cases in our list has only one Node.
-        if (length == 0) {
+        if (length == 1) {
             head = null;
             tail = null;
+        } else {
+
+            tail = tail.prev;
+            tail.next = null;
+            temp.prev = null;
         }
+        length--;
         return temp;
     }
 
@@ -85,35 +83,42 @@ public class LinkedList {
             head = newNode;
             tail = newNode;
         } else {
-
-            newNode.next = temp;
+            newNode.next = head;
+            head.prev = newNode;
             head = newNode;
         }
-
         length++;
     }
 
     public Node removeFirst() {
+        Node temp = head;
         if (length == 0)
             return null;
-
-        Node temp = head;
-        head = temp.next;
-        temp.next = null;
-        length--;
-        if (length == 0)
+        if (length == 1) {
+            head = null;
             tail = null;
+        } else {
 
+            temp.next.prev = null;
+            temp.next = null;
+        }
+        length--;
         return temp;
     }
 
     public Node get(int index) {
         if (index < 0 || index >= length)
             return null;
-
         Node temp = head;
-        for (int i = 0; i < index; i++) {
-            temp = temp.next;
+        if (index < length / 2) {
+            for (int i = 0; i < length; i++) {
+                temp = temp.next;
+            }
+        } else {
+            temp = tail;
+            for (int i = length - 1; i > index; i--) {
+                temp = temp.prev;
+            }
         }
         return temp;
     }
@@ -139,9 +144,12 @@ public class LinkedList {
             return true;
         }
         Node newNode = new Node(value);
-        Node temp = get(index - 1);
-        newNode.next = temp.next;
-        temp.next = newNode;
+        Node before = get(index - 1);
+        Node after = before.next;
+        newNode.prev = before;
+        newNode.next = after;
+        before.next = newNode;
+        after.prev = newNode;
         length++;
         return true;
     }
@@ -153,29 +161,12 @@ public class LinkedList {
             return removeFirst();
         if (index == length - 1)
             return removeLast();
-
-        Node prev = get(index - 1);
-        Node temp = prev.next;
-        prev.next = temp.next;
+        Node temp = get(index);
+        temp.next.prev = temp.prev;
+        temp.prev.next = temp.next;
         temp.next = null;
+        temp.prev = null;
         length--;
         return temp;
-    }
-
-    public void reverse() {
-        Node temp = head;
-        head = tail;
-        tail = temp;
-
-        Node after = temp.next;
-        Node before = null;
-
-        for (int i = 0; i < length; i++) {
-            after = temp.next;
-            temp.next = before;
-            before = temp;
-            temp = after;
-
-        }
     }
 }
