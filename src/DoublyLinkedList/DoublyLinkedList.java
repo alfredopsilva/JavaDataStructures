@@ -109,9 +109,12 @@ public class DoublyLinkedList {
     public Node get(int index) {
         if (index < 0 || index >= length)
             return null;
-        Node temp = head;
+
+        Node temp = null;
+
         if (index < length / 2) {
-            for (int i = 0; i < length; i++) {
+            temp = head;
+            for (int i = 0; i < index; i++) {
                 temp = temp.next;
             }
         } else {
@@ -177,6 +180,51 @@ public class DoublyLinkedList {
         int temp = head.value;
         head.value = tail.value;
         tail.value = temp;
+    }
+
+    public void reverse() {
+        if (length == 0)
+            return;
+
+        Node currentNode = head;
+        Node temporaryNode = null;
+
+        while (currentNode != null) {
+            temporaryNode = currentNode.prev;
+            currentNode.prev = currentNode.next;
+            currentNode.next = temporaryNode;
+            currentNode = currentNode.prev;
+        }
+        temporaryNode = head;
+        head = tail;
+        tail = temporaryNode;
+    }
+
+    public boolean isPalindrome() {
+        boolean isPalindrome = true;
+        for (int i = 0; i < length; i++) {
+            if (get(i).value != get((length - 1) - i).value) {
+                isPalindrome = false;
+            }
+        }
+
+        return isPalindrome;
+    }
+
+    public boolean isPalindrome2() {
+        if (length <= 1)
+            return true;
+
+        Node forwardNode = head;
+        Node backwardNode = tail;
+
+        for (int i = 0; i < length / 2; i++) {
+            if (forwardNode.value != backwardNode.value)
+                return false;
+            forwardNode = forwardNode.next;
+            backwardNode = backwardNode.prev;
+        }
+        return true;
     }
 
 }
