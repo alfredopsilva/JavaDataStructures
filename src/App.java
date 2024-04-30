@@ -1,6 +1,7 @@
 import DoublyLinkedList.DoublyLinkedList;
 import LinkedList.LinkedList;
 import Stack.Stack;
+import Stack.StackWithArrayList;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -18,7 +19,11 @@ public class App {
         // System.out.println("Checking if it is a palyndrome: " +
         // myDLL.isPalindrome2());
 
-        Stack myStack = new Stack(10);
-        myStack.printStack();
+        // Stack myStack = new Stack(10);
+        // myStack.printStack();
+
+        StackWithArrayList<Character> stack = new StackWithArrayList<Character>();
+        System.out.println(stack.reverseString("Hello"));
+
     }
 }
