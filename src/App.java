@@ -1,6 +1,3 @@
-import DoublyLinkedList.DoublyLinkedList;
-import LinkedList.LinkedList;
-import Stack.Stack;
 import Stack.StackWithArrayList;
 
 public class App {
@@ -22,8 +19,14 @@ public class App {
         // Stack myStack = new Stack(10);
         // myStack.printStack();
 
-        StackWithArrayList<Character> stack = new StackWithArrayList<Character>();
-        System.out.println(stack.reverseString("Hello"));
+        StackWithArrayList<Integer> myStack = new StackWithArrayList<>();
+        myStack.push(3);
+        myStack.push(1);
+        myStack.push(4);
+        myStack.push(2);
+        // System.out.println(myStack.peek());
+        // myStack.printStack();
 
+        myStack.printStack();
     }
 }

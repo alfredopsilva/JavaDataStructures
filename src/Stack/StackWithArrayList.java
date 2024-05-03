@@ -71,4 +71,22 @@ public class StackWithArrayList<T> {
         return stack.isEmpty();
     }
 
+    public void sortStack(StackWithArrayList<Integer> stack) {
+        StackWithArrayList<Integer> additionalStack = new StackWithArrayList<>();
+
+        while (!stack.isEmpty()) {
+            int temp = stack.pop();
+
+            while (!additionalStack.isEmpty() && additionalStack.peek() > temp) {
+                stack.push(additionalStack.pop());
+            }
+
+            additionalStack.push(temp);
+        }
+
+        while (!additionalStack.isEmpty()) {
+            stack.push(additionalStack.pop());
+        }
+    }
+
 }

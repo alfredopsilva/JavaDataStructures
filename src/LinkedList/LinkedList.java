@@ -86,7 +86,7 @@ public class LinkedList {
             tail = newNode;
         } else {
 
-            newNode.next = temp;
+            newNode.next = head;
             head = newNode;
         }
 
