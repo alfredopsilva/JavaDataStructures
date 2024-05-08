@@ -2,44 +2,23 @@ package HashTable;
 
 import java.util.ArrayList;
 
-public class HashTable {
+public class MyHashTable {
     private int size = 7;
     private Node[] dataMap;
 
     public class Node {
-        private String key;
-        private int value;
-        private Node next;
+        String key;
+        int value;
+        Node next;
 
         public Node(String key, int value) {
-            this.key = key;
             this.value = value;
+            this.key = key;
         }
     }
 
-    public HashTable() {
+    public MyHashTable() {
         dataMap = new Node[size];
-    }
-
-    public void printTable() {
-        for (int i = 0; i < dataMap.length; i++) {
-            System.out.println(i + ":");
-            Node temp = dataMap[i];
-            while (temp != null) {
-                System.out.println(" {" + temp.key + " = " + temp.value + " }");
-                temp = temp.next;
-            }
-        }
-    }
-
-    private int hash(String key) {
-        int hash = 0;
-        char[] keyChars = key.toCharArray();
-        for (int i = 0; i < keyChars.length; i++) {
-            int asciiValue = keyChars[i];
-            hash = (hash + asciiValue * 23) % dataMap.length;
-        }
-        return hash;
     }
 
     public void set(String key, int value) {
@@ -50,6 +29,9 @@ public class HashTable {
         } else {
             Node temp = dataMap[index];
             while (temp.next != null) {
+                if (temp.key.equals(key)) {
+                    temp.value = value;
+                }
                 temp = temp.next;
             }
             temp.next = newNode;
@@ -60,7 +42,7 @@ public class HashTable {
         int index = hash(key);
         Node temp = dataMap[index];
         while (temp != null) {
-            if (temp.key == key) {
+            if (temp.key.equals(key)) {
                 return temp.value;
             }
             temp = temp.next;
@@ -69,14 +51,24 @@ public class HashTable {
     }
 
     public ArrayList<String> keys() {
-        ArrayList<String> allKeys = new ArrayList<>();
+        ArrayList<String> keys = new ArrayList<>();
         for (int i = 0; i < dataMap.length; i++) {
             Node temp = dataMap[i];
             while (temp != null) {
-                allKeys.add(temp.key);
+                keys.add(temp.key);
                 temp = temp.next;
             }
         }
-        return allKeys;
+        return keys;
+    }
+
+    private int hash(String key) {
+        int hash = 0;
+        char[] keyChars = key.toCharArray();
+        for (int i = 0; i < keyChars.length; i++) {
+            int asciiValue = keyChars[i];
+            hash = (hash + asciiValue * 23) % dataMap.length;
+        }
+        return hash;
     }
 }
