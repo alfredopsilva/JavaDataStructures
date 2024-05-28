@@ -15,7 +15,7 @@ public class Heap {
     }
 
     private int leftChild(int index) {
-        return 2 * index - 1;
+        return 2 * index + 1;
     }
 
     private int rightChild(int index) {
@@ -32,29 +32,21 @@ public class Heap {
         heap.set(index2, temp);
     }
 
+    public void test(){
+
+    }
+
     public void insert(int value) {
         heap.add(value);
         int current = heap.size() - 1;
+
         while (current > 0 && heap.get(current) > heap.get(parent(current))) {
             swap(current, parent(current));
             current = parent(current);
         }
     }
 
-    public Integer remove() {
-        if (heap.size() == 0)
-            return null;
-        if (heap.size() == 1) {
-            return heap.remove(0);
-        }
-        int maxValue = heap.get(0);
-        heap.set(0, heap.remove(heap.size() - 1));
-        sinkDown(0);
-
-        return maxValue;
-    }
-
-    public void sinkDown(int index) {
+    private void sinkDown(int index) {
         int maxIndex = index;
         while (true) {
             int leftIndex = leftChild(index);
@@ -65,7 +57,7 @@ public class Heap {
             }
 
             if (rightIndex < heap.size() && heap.get(rightIndex) > heap.get(maxIndex)) {
-                maxIndex = leftIndex;
+                maxIndex = rightIndex;
             }
 
             if (maxIndex != index) {
@@ -76,4 +68,21 @@ public class Heap {
             }
         }
     }
+
+    public Integer remove() {
+        if (heap.size() == 0) {
+            return null;
+        }
+
+        if (heap.size() == 1) {
+            return heap.remove(0);
+        }
+
+        int maxValue = heap.get(0);
+        heap.set(0, heap.remove(heap.size() - 1));
+        sinkDown(0);
+
+        return maxValue;
+    }
+
 }
